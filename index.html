@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST Calculator</title>
+    <link rel="stylesheet" href="exp6(3).css">
+    <script src="jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function calculateGST() {
+                let amount = parseFloat($('#amount').val());
+                let gstPercent = parseFloat($('#gst').val());
+
+                if (isNaN(amount)) {
+                    $('#actualOutput').text('');
+                    $('#gstOutput').text('');
+                    $('#totalOutput').text('');
+                    return;
+                }
+
+                
+                $('#actualOutput').text(amount.toFixed(2));
+
+                if (!isNaN(gstPercent)) {
+                    let gstAmount = (amount * gstPercent) / 100;
+                    let totalAmount = amount + gstAmount;
+
+                    $('#gstOutput').text(gstAmount.toFixed(2));
+                    $('#totalOutput').text(totalAmount.toFixed(2));
+                } else {
+                    $('#gstOutput').text('');
+                    $('#totalOutput').text('');
+                }
+            }
+
+            $('#amount').on('change', calculateGST);
+            $('#gst').on('keyup change', calculateGST);
+
+            $('#reset').click(function () {
+                $('#amount').val('');
+                $('#gst').val('');
+                $('#actualOutput, #gstOutput, #totalOutput').text('');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>GST Calculator</h2>
+
+        <div class="field">
+            <label for="amount">Enter Amount</label>
+            <input type="text" id="amount" placeholder="0.00">
+        </div>
+
+        <div class="field">
+            <label for="gst">Select GST (%)</label>
+            <select id="gst">
+                <option value="">-- Choose --</option>
+                <option value="3">3%</option>
+                <option value="5">5%</option>
+                <option value="12">12%</option>
+                <option value="18">18%</option>
+                <option value="28">28%</option>
+            </select>
+        </div>
+
+        <div class="output">
+            <div class="card">
+                <p>Actual</p>
+                <span id="actualOutput"></span>
+            </div>
+            <div class="card">
+                <p>GST</p>
+                <span id="gstOutput"></span>
+            </div>
+            <div class="card">
+                <p>Total</p>
+                <span id="totalOutput"></span>
+            </div>
+        </div>
+
+        <button id="reset">Reset</button>
+    </div>
+</body>
+</html>
